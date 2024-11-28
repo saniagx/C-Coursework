@@ -32,8 +32,8 @@ public:
     //can either read it from tuple or take place separately
 
     //try reading from tuple?
-
-   float get_total_price() const {return total_price; };
+    void add_to_total(float price) {  total_price += price;  }
+    float get_total_price() const {return total_price; };
 
     //check if no items??
 

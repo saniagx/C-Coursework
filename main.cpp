@@ -14,7 +14,6 @@ using namespace std;
 //i think that would not be needed.
 //people.txt is only called for outputting the data, right?
 
-vector<person> people;
 
 
 //would it be easier to read as strings and then store accordingly?
@@ -22,98 +21,114 @@ vector<person> people;
 //COMPLEXITY: O(n): Time Complexity directly proportional to number of lines in the input file, o(n).
 
 //store as strings inside read_people
+//use this later, for outputting
 vector<person> read_people(ifstream &in) {
+    vector<person> people_names;
     string line;
     while (getline(in, line)) {
         istringstream line_s(line);
         string name;
         if (line_s>>name) {
-            people.push_back(name);
+            people_names.push_back(name);
         }
     }
-    if (people.size() == 0) {
+    if (people_names.empty()) {
         cout << "The people.txt file is empty" << endl;
     } else {
-        return people;
+        return people_names;
     }
 }
 
-//rewrite the below code to work with the above code
 
-
-
-
-
-
-//then the below would not store anything in the vector people yk
-
-//could create an array of strings for names and then a vector of person for the actual objects\
-//doesn't that seem long though?
-
-//step through the person vector and then search for the name in the corresponding payments.txt
-//for length person vector,
-    //if the name is equal to a name inside payments add item
-    //name could appear multiple times in payments, need the loop to keep running for all elements
-    //just do an if statement inside a while loop
-
-    //if string is found in the line, then process the line
-    //else move to next line
-
-
+//read payments
 vector<person> read_payments(ifstream &in) {
+    vector<person> people;
     string line;
     while (getline(in, line)) {
         istringstream line_s(line);
         string name;
-        string object;
+        string item;
         float price;
-        //need to ensure the price is to 2dp
-        if (line_s >> name >> object >> price) {
+        if (line_s >> name >> item >> price) {
             cout << "Reading data..." << endl;
-            if (count(people.begin(), people.end(), name) > 0) {}
-                //if it's in the vector...
-                //make a person and their item
-                people.push_back(person(name));
-                person &p = people.back();
-                p.add_item(make_tuple(object, price));
-            //already have the names, just need to read the payments file...
-            //if name already exists within the vector people, don't make it a new one.
-            //if name is in people.txt AND name is not already inside the vector, then make it!!
+            //int check = count(people.begin(), people.end(), person(name));
+            //int check = 0;
+            //if (check == 0) {
+            for (auto P : people) {
+                if (P.get_name() == name) {
+                    P.add_item(make_tuple(item, price));
+                    P.add_to_total(price);
+                    cout << P.get_total_price() << endl;
+                }
+                else {
+                    people.push_back(person(name));
+                    person p = people.back();
+                    p.add_item(make_tuple(item, price));
+                    p.add_to_total(price);
+                    cout << p.get_total_price() << endl;
+                }
             }
+
+
+                //use get name
+
+                //step through vector doing if person.getname() is equal to the name
+                        //then add to the name
+
+            //} else {
+            //     person p = person(name);
+            //     p.add_item(make_tuple(object, price));
+            //     p.add_to_total(price);
+            //     cout << p.get_total_price() << endl;
+            // }
+
+           // is person(name).getname() ==
+
+            // pasted here
+            // p.add_item(make_tuple(object, price));
+            // p.add_to_total(price);
+            // cout << p.get_total_price() << endl;
+
+            //what if name occurs more than once???
+            //need to add it to the correct object
+
+            //if name is already in vector, then reference that name
+
+            //loop below doesn't run :/
+            // while (line_s >> object >> price) {
+            //     cout << "Adding Objects..." << endl;
+            //     p.add_item(make_tuple(object, price));
+            //     p.add_to_total(price);
+            //     cout << p.get_total_price() << endl;
+            // }
         }
+    }
     return people;
 }
 
-//wouldnt it make sense to create the people and then add their items accordingly
-//so if name is inside the vector
-//add the item to that person inside the vector
-//need the index position of the person inside the vector, or some way to reference it
-//use find.
+
+
 
 
 
 int main(){
 
-    ifstream file("people.txt");
+    ifstream filePeople("people.txt");
+    ifstream filePayments("Payments.txt");
 
-    auto people = read_people(file);
+    auto people = read_people(filePeople);
+    auto payments = read_payments(filePayments);
+
+
+    for(int i = 0; i < people.size(); i++) {
+        //call the name and output their details
+        cout << payments[i].get_name() + "\n";
+        cout << payments[i].get_total_price() << "\n";
+    }
+
+    //while payments and run
+
 
     cout << people.size() << endl;
-
-    //need to step through people's file, and output the correct values for each person's totals and etc.
-
-    //for example
-
-
-    //step through the file of people OR
-    //step through the people in the vector, people - which would be easier?
-    //maybe step through the vector people.txt
-
-    //If and only if the name is in people.txt, then the name is valid
-
-    //this leads to a lot of if statements.....
-    //ok.
-
-
-
+    cout << payments.size() << endl;
 }
