@@ -51,10 +51,7 @@ vector<person> read_payments(ifstream &in) {
         float price;
         if (line_s >> name >> item >> price) {
             cout << "Reading data..." << endl;
-            //int check = count(people.begin(), people.end(), person(name));
-            //int check = 0;
-            //if (check == 0) {
-            for (auto P : people) {
+            for (auto P : people){
                 if (P.get_name() == name) {
                     P.add_item(make_tuple(item, price));
                     P.add_to_total(price);
@@ -67,54 +64,18 @@ vector<person> read_payments(ifstream &in) {
                     p.add_to_total(price);
                     cout << p.get_total_price() << endl;
                 }
-            }
-
-
-                //use get name
-
-                //step through vector doing if person.getname() is equal to the name
-                        //then add to the name
-
-            //} else {
-            //     person p = person(name);
-            //     p.add_item(make_tuple(object, price));
-            //     p.add_to_total(price);
-            //     cout << p.get_total_price() << endl;
-            // }
-
-           // is person(name).getname() ==
-
-            // pasted here
-            // p.add_item(make_tuple(object, price));
-            // p.add_to_total(price);
-            // cout << p.get_total_price() << endl;
-
-            //what if name occurs more than once???
-            //need to add it to the correct object
-
-            //if name is already in vector, then reference that name
-
-            //loop below doesn't run :/
-            // while (line_s >> object >> price) {
-            //     cout << "Adding Objects..." << endl;
-            //     p.add_item(make_tuple(object, price));
-            //     p.add_to_total(price);
-            //     cout << p.get_total_price() << endl;
-            // }
         }
     }
+}
     return people;
 }
-
-
-
 
 
 
 int main(){
 
     ifstream filePeople("people.txt");
-    ifstream filePayments("Payments.txt");
+    ifstream filePayments("payments.txt");
 
     auto people = read_people(filePeople);
     auto payments = read_payments(filePayments);
@@ -122,13 +83,25 @@ int main(){
 
     for(int i = 0; i < people.size(); i++) {
         //call the name and output their details
-        cout << payments[i].get_name() + "\n";
-        cout << payments[i].get_total_price() << "\n";
+        cout << people[i].get_name() + "\n";
+        cout << people[i].get_total_price() << "\n";
     }
+    //it seems like the people elements inside the vector people
+    //are not connected to the people elements inside the vector payments
+
+    //could assign to the objects in the people vector but that doesn't seem right
+
+    //ORORR USE GET NAME AND SEE IF THE NAMES ARE EQUAL THEN DO OUTPUT!!
+
+
+    //could cut the people who are not in the vector and print the others?
+    //somehow...
+
+
 
     //while payments and run
-
-
     cout << people.size() << endl;
-    cout << payments.size() << endl;
+
+    cout << payments[0].get_total_price() << endl;
+
 }
